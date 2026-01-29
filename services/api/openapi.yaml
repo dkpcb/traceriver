@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+  title: TraceRiver API
+  description: OpenAPI-driven Clean Architecture API for TraceRiver
+  version: 0.1.0
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /health:
+    get:
+      summary: Health check endpoint
+      operationId: getHealth
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - lineUserId
+        - displayName
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique user identifier
+        lineUserId:
+          type: string
+          description: LINE user ID
+        displayName:
+          type: string
+          description: User's display name
+        walletAddress:
+          type: string
+          nullable: true
+          description: Blockchain wallet address
+      example:
+        id: "550e8400-e29b-41d4-a716-446655440000"
+        lineUserId: "U1234567890abcdef"
+        displayName: "John Doe"
+        walletAddress: "0x1234567890abcdef"
+
+    Interaction:
+      type: object
+      required:
+        - id
+        - requesterId
+        - approverId
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique interaction identifier
+        requesterId:
+          type: string
+          format: uuid
+          description: ID of the user requesting interaction
+        approverId:
+          type: string
+          format: uuid
+          description: ID of the user approving interaction
+        status:
+          type: string
+          enum:
+            - pending
+            - approved
+            - rejected
+          description: Current status of the interaction
+        metadata:
+          type: object
+          nullable: true
+          additionalProperties: true
+          description: Additional metadata for the interaction
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the interaction was created
+      example:
+        id: "660e8400-e29b-41d4-a716-446655440001"
+        requesterId: "550e8400-e29b-41d4-a716-446655440000"
+        approverId: "550e8400-e29b-41d4-a716-446655440002"
+        status: "pending"
+        metadata:
+          type: "handshake"
+          location: "Tokyo"
+        createdAt: "2024-01-15T10:30:00Z"

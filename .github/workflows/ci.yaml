@@ -1,0 +1,42 @@
+name: CI
+
+on: [push]
+
+jobs:
+    lint:
+        name: Lint
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Set up Go
+              uses: actions/setup-go@v5
+              with:
+                  go-version-file: "./go.mod"
+            - uses: golangci/golangci-lint-action@v7
+              with:
+                  version: latest
+
+    test:
+        name: Test
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Set up Go
+              uses: actions/setup-go@v5
+              with:
+                  go-version-file: "./go.mod"
+            - name: Install dependencies
+              run: |
+                  go mod download
+                  go install github.com/jstemmer/go-junit-report/v2@latest
+            - name: Run tests
+              run: |
+                  # continue to make test-report.xml on failure
+                  go test ./... -v -shuffle=on 2>&1 > test_result.log || true
+                  cat test_result.log
+                  go-junit-report < test_result.log > test-report.xml
+            - name: Publish test results
+              uses: EnricoMi/publish-unit-test-result-action@v2
+              with:
+                  files: test-report.xml
+                  report_individual_runs: true

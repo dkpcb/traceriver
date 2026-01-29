@@ -24,6 +24,46 @@ paths:
                     type: string
                     example: ok
 
+  /webhook/line:
+    post:
+      summary: LINE Webhook endpoint
+      operationId: postWebhookLine
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LineWebhookRequest'
+      responses:
+        '200':
+          description: Webhook processed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
 components:
   schemas:
     User:
@@ -99,3 +139,99 @@ components:
           type: "handshake"
           location: "Tokyo"
         createdAt: "2024-01-15T10:30:00Z"
+
+    LineWebhookRequest:
+      type: object
+      required:
+        - destination
+        - events
+      properties:
+        destination:
+          type: string
+          description: User ID of the bot
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineEvent'
+
+    LineEvent:
+      type: object
+      required:
+        - type
+        - timestamp
+        - source
+        - mode
+      properties:
+        type:
+          type: string
+          enum:
+            - message
+            - follow
+            - unfollow
+            - postback
+          description: Event type
+        timestamp:
+          type: integer
+          format: int64
+          description: Time of the event in milliseconds
+        source:
+          $ref: '#/components/schemas/LineSource'
+        mode:
+          type: string
+          description: Channel state
+        message:
+          $ref: '#/components/schemas/LineMessage'
+        postback:
+          $ref: '#/components/schemas/LinePostback'
+
+    LineSource:
+      type: object
+      required:
+        - type
+        - userId
+      properties:
+        type:
+          type: string
+          enum:
+            - user
+            - group
+            - room
+        userId:
+          type: string
+          description: User ID of the source user
+        groupId:
+          type: string
+          nullable: true
+          description: Group ID (if source is group)
+        roomId:
+          type: string
+          nullable: true
+          description: Room ID (if source is room)
+
+    LineMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Message ID
+        type:
+          type: string
+          enum:
+            - text
+            - image
+            - video
+            - audio
+            - file
+            - location
+            - sticker
+        text:
+          type: string
+          nullable: true
+          description: Message text (for text messages)
+
+    LinePostback:
+      type: object
+      properties:
+        data:
+          type: string
+          description: Postback data

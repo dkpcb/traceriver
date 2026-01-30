@@ -115,16 +115,16 @@ func (c *WebhookController) handleEvent(ctx context.Context, event LineEvent) er
 func (c *WebhookController) sendSuccess(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]string{
-		"status": "ok",
-	})
+	if err := json.NewEncoder(w).Encode(map[string]string{"status": "ok"}); err != nil {
+		fmt.Printf("failed to write response: %v\n", err)
+	}
 }
 
 // sendError sends an error response.
 func (c *WebhookController) sendError(w http.ResponseWriter, status int, message string) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(map[string]string{
-		"error": message,
-	})
+	if err := json.NewEncoder(w).Encode(map[string]string{"error": message}); err != nil {
+		fmt.Printf("failed to write response: %v\n", err)
+	}
 }

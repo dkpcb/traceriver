@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/dkpcb/traceriver/services/api/usecase"
+	"github.com/dkpcb/pet/usecase"
 )
 
 // WebhookController handles LINE webhook requests.

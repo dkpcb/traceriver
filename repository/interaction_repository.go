@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/dkpcb/traceriver/services/api/domain"
+	"github.com/dkpcb/pet/domain"
 )
 
 // InteractionRepository defines the persistence interface for Interaction domain objects.

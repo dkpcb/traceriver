@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dkpcb/traceriver/services/api/repository"
+	"github.com/dkpcb/pet/repository"
 )
 
 // LineService is the implementation of repository.LineService.

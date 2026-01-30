@@ -8,8 +8,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/dkpcb/traceriver/services/api/domain"
-	"github.com/dkpcb/traceriver/services/api/repository"
+	"github.com/dkpcb/pet/domain"
+	"github.com/dkpcb/pet/repository"
 )
 
 // RequestInteractionInput represents the input for requesting an interaction.

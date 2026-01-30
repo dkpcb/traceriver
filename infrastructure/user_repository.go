@@ -6,9 +6,9 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/dkpcb/traceriver/services/api/domain"
-	"github.com/dkpcb/traceriver/services/api/infrastructure/table"
-	"github.com/dkpcb/traceriver/services/api/repository"
+	"github.com/dkpcb/pet/domain"
+	"github.com/dkpcb/pet/infrastructure/table"
+	"github.com/dkpcb/pet/repository"
 )
 
 // UserRepository is the GORM implementation of repository.UserRepository.

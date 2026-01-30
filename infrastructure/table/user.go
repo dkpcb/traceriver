@@ -3,7 +3,7 @@ package table
 import (
 	"time"
 
-	"github.com/dkpcb/traceriver/services/api/domain"
+	"github.com/dkpcb/pet/domain"
 )
 
 // User is the GORM database model for users.

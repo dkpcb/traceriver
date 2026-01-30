@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/dkpcb/traceriver/services/api/domain"
+	"github.com/dkpcb/pet/domain"
 )
 
 // Interaction is the GORM database model for interactions.
